@@ -1,0 +1,109 @@
+package pages;
+
+import java.awt.Desktop.Action;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+
+public class expediaload 
+{
+	WebDriver driver;
+	By flights=By.xpath("//*[@id=\"wizardMainRegionV2\"]/div/div/div/div/ul/li[2]/a/span");
+	By travelers=By.xpath("//*[@id=\"adaptive-menu\"]/button");
+	By adultbutton=By.xpath("//*[@id=\"adaptive-menu\"]/div/div/div/div[2]/section/div[1]/div[1]/div/button[2]/span");
+	By childbutton=By.xpath("//*[@id=\"adaptive-menu\"]/div/div/div/div[2]/section/div[1]/div[2]/div/button[2]/span");
+	By age=By.xpath("//*[@id=\"child-age-input-0-0\"]");
+	By done=By.xpath("//*[@id=\"adaptive-menu\"]/div/div/div/div[3]/button");
+	By firstclass=By.xpath("//*[@id=\"preferred-class-input-trigger\"]");
+	By firstclasssel=By.xpath("//*[@id=\"preferred-class-input\"]/div/div/a[4]");
+	By from=By.xpath("//*[@id=\"location-field-leg1-origin-menu\"]/div[1]/div[1]/button");
+	By fomcity=By.xpath("//*[@id=\"location-field-leg1-origin\"]");
+	By to=By.xpath("//*[@id=\"location-field-leg1-destination-menu\"]/div[1]/div[1]/button");
+	By toocity=By.xpath("//*[@id=\"location-field-leg1-destination\"]");
+	By depart=By.id("d1-btn");
+	By departmonth=By.xpath("//*[@id=\"wizard-flight-tab-roundtrip\"]/div[2]/div[2]/div/div/div[1]/div/div[2]/div/div[1]/div[2]/div[1]/h2");
+	By nextdepart=By.xpath("//*[@id=\"wizard-flight-tab-roundtrip\"]/div[2]/div[2]/div/div/div[1]/div/div[2]/div/div[1]/div[1]/button[2]");
+	By departdates=By.xpath("//*[@id=\"wizard-flight-tab-roundtrip\"]/div[2]/div[2]/div/div/div[1]/div/div[2]/div/div[1]/div[2]/div[1]/table/tbody/tr/td/button");
+	By departdone=By.xpath("//*[@id=\"wizard-flight-tab-roundtrip\"]/div[2]/div[2]/div/div/div[1]/div/div[2]/div/div[2]/div/button");
+	By returning=By.id("d2-btn");
+	By returnmonth=By.xpath("//*[@id=\"wizard-flight-tab-roundtrip\"]/div[2]/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div[2]/div[2]/h2");
+	By returnnext=By.xpath("//*[@id=\"wizard-flight-tab-roundtrip\"]/div[2]/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div[1]/button[2]");
+	By returndates=By.xpath("//*[@id=\"wizard-flight-tab-roundtrip\"]/div[2]/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div[2]/div[2]/table/tbody");
+	By returndone=By.xpath("//*[@id=\"wizard-flight-tab-roundtrip\"]/div[2]/div[2]/div/div/div[2]/div/div[2]/div/div[2]/div/button");
+	By search=By.xpath("//*[@id=\"wizard-flight-pwa-1\"]/div[3]/div[2]/button");
+	
+	public expediaload(WebDriver driver)
+	{
+		this.driver=driver;
+	}
+	public void values(String age3,String fromcity,String tocity,String month1,String date1,String month2,String date2)
+	{
+		driver.findElement(flights).click();
+		driver.findElement(travelers).click();
+		driver.findElement(adultbutton).click();
+		driver.findElement(childbutton).click();
+		WebElement childage=driver.findElement(age);
+		Select c=new Select(childage);
+		c.selectByValue(age3);
+		driver.findElement(firstclass).click();
+		driver.findElement(firstclasssel).click();
+		driver.findElement(from).click();
+		driver.findElement(fomcity).sendKeys(fromcity,Keys.ENTER);
+		driver.findElement(to).click();
+		driver.findElement(toocity).sendKeys(tocity,Keys.ENTER);
+		driver.findElement(depart).click();
+		while(true)
+		{
+			WebElement month=driver.findElement(departmonth);
+			String monthtext=month.getText();
+			if(monthtext.equals("February 2023"))
+			{
+				break;
+			}
+			else
+			{
+				driver.findElement(nextdepart).click();
+			}
+		}
+		List<WebElement> alldates=driver.findElements(departdates);
+		for(WebElement dates:alldates)
+		{
+			String d=dates.getAttribute("data-day");
+			if(d.equals(date1))
+			{
+				dates.click();
+			}
+		}
+		driver.findElement(departdone).click();
+		driver.findElement(returning).click();
+		while(true)
+		{
+			WebElement monthreturn=driver.findElement(returnmonth);
+			String monthtextreturn=monthreturn.getText();
+			if(monthtextreturn.equals("April 2023"))
+			{
+				break;
+			}
+			else
+			{
+				driver.findElement(returnnext).click();
+			}
+		}
+		List<WebElement> alldatesreturn=driver.findElements(departdates);
+		for(WebElement datesreturn:alldatesreturn)
+		{
+			String dreturn=datesreturn.getAttribute("data-day");
+			if(dreturn.equals(date2))
+			{
+				datesreturn.click();
+			}
+		}
+		driver.findElement(returndone).click();
+		driver.findElement(search).click();
+	}
+}
