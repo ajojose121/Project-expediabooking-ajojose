@@ -1,0 +1,33 @@
+package test;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import pages.expediaload;
+
+public class expediatest
+{
+	WebDriver driver;
+	String url="https://www.expedia.com/";
+	@BeforeTest
+	public void setup()
+	{
+		driver=new ChromeDriver();
+	}
+	@BeforeMethod
+	public void url()
+	{
+		driver.get(url);
+		driver.manage().window().maximize();
+	}
+	@Test
+	public void expediatesting()
+	{
+		expediaload ob=new expediaload(driver);
+		ob.values("3", "brussels", "newyork", "February 2023", "30", "April 2023","13");	
+	}
+}
